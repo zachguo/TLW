@@ -92,13 +92,13 @@ outUnigram = wordICunigramDict.items()
 outBigram = wordICbigramDict.items()
 outUnigram.sort(key=lambda x:x[1])
 outBigram.sort(key=lambda x:x[1])
-with open('ICunigram.txt','w') as f:
+with open('output/ICunigram.txt','w') as f:
 	for word in outUnigram:
 		f.write(word[0]+'\t'+str(word[1])+'\n')
-with open('ICbigram.txt','w') as f:
+with open('output/ICbigram.txt','w') as f:
 	for word in outBigram:
 		f.write(word[0]+'\t'+str(word[1])+'\n')
-with open('TopBottom50.txt','w') as f:
+with open('output/TopBottom50.txt','w') as f:
 	f.write('Unigram Top 50\tUnigram Bottom 50\tBigram Top 50\tBigram Bottom 50\n')
 	for i in range(50):
 		f.write(outUnigram[i][0]+'\t'+outUnigram[-(i+1)][0]+'\t'+outBigram[i][0]+'\t'+outBigram[-(i+1)][0]+'\n')
