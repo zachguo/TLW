@@ -7,6 +7,8 @@ Quantifying well-formedness of Turkish lexicon using metric from Goldsmith (2002
 
 ### Copyrights
 
-TELL data was derived from [TURKISH ELECTRONIC LIVING LEXICON (TELL) Version 2.0](http://linguistics.berkeley.edu/TELL/)
+MIT License.
 
-Turkish word frequencies was derived from [Frequency Word Lists by Hermit Dave](http://invokeit.wordpress.com/frequency-word-lists/)
+TELL data was derived from [TURKISH ELECTRONIC LIVING LEXICON (TELL) Version 2.0](http://linguistics.berkeley.edu/TELL/).
+
+Turkish word frequencies was derived from [Frequency Word Lists by Hermit Dave](http://invokeit.wordpress.com/frequency-word-lists/).
