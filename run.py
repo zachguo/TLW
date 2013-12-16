@@ -46,13 +46,13 @@ def get_ngramIC(useful_words, citationDict, freqDict):
     unigramDict = defaultdict(float)
     bigramDict = defaultdict(float)
     for word in useful_words:
-        newword = "#"+citationDict[word]+"#"
-        for i in range(len(newword)):
-            if i < len(newword)-1 and i:
-                unigramDict[newword[i]] += freqDict[word]
-                bigramDict[newword[i]+newword[i+1]] += freqDict[word]
+        citation = "#"+citationDict[word]+"#"
+        for i in range(len(citation)):
+            if i < len(citation)-1 and i:
+                unigramDict[citation[i]] += freqDict[word]
+                bigramDict[citation[i]+citation[i+1]] += freqDict[word]
             else:
-                unigramDict[newword[i]] += freqDict[word]
+                unigramDict[citation[i]] += freqDict[word]
     print "Finished generating Ngram dictionaries."
     ## smoothing for bigram and trigram: add-one
     gramset = unigramDict.keys()
@@ -74,7 +74,7 @@ def get_ngramIC(useful_words, citationDict, freqDict):
     return ICunigramDict, ICbigramDict
 
 def cal_wellformedness(target, ICunigramDict, ICbigramDict):
-    target = "#"+target+"#"
+    target = "#"+target+"#" # target should be citation, not lexeme
     wordICunigram = sum([ICunigramDict[char] for char in target])/float(len(target))
     wordICbigram = sum([ICbigramDict[target[i:i+2]] for i in range(len(target)-1)])/float(len(target)-1)
     return wordICunigram, wordICbigram
@@ -102,3 +102,7 @@ with open('output/TopBottom50.txt','w') as f:
 	f.write('Unigram Top 50\tUnigram Bottom 50\tBigram Top 50\tBigram Bottom 50\n')
 	for i in range(50):
 		f.write(outUnigram[i][0]+'\t'+outUnigram[-(i+1)][0]+'\t'+outBigram[i][0]+'\t'+outBigram[-(i+1)][0]+'\n')
+with open('example_korpu.txt', 'r') as f:
+    for line in f:
+        if line:
+            print line.strip(), cal_wellformedness(line.strip(), ICunigramDict, ICbigramDict)[1]
