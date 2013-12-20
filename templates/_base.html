@@ -23,12 +23,12 @@
 		        <span class="icon-bar"></span>
 		        <span class="icon-bar"></span>
 		      </button>
-		      <a class="navbar-brand" href="#">TLW</a>
+		      <a class="navbar-brand">TLW</a>
 		    </div>
 		    <div class="navbar-collapse collapse">
 		      <ul class="nav navbar-nav">
 		        <li class="active"><a href="#">Demo</a></li>
-		        <li><a href="https://github.com/zachguo/Turkish-Lexicon-Wellformedness">Source Code</a></li>
+		        <li><a href="https://github.com/zachguo/Turkish-Lexicon-Wellformedness/tree/master/core">Source Code</a></li>
 		        <li class="dropdown">
 		          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contact <b class="caret"></b></a>
 		          <ul class="dropdown-menu">
@@ -43,20 +43,75 @@
 
 		<div class="container">
 
-		  <!-- Main component for a primary marketing message or call to action -->
-		  <div class="jumbotron">
-		    <h2>Turkish Lexicon Wellformedness</h2>
-		    <p>Quantifying well-formedness of Turkish lexicon using metrics from Goldsmith (2002).</p>
-		  </div>
+			<div class="jumbotron">
+				<h2>Turkish Lexicon Wellformedness</h2>
+			    <p>Quantifying well-formedness of Turkish lexicon using information-theoretical metrics from Goldsmith (2002).</p>
+			</div>
+
+			<div class="container">
+				<h3>Demo:</h3>
+				<p>Please enter Turkish lexeme (orthographic word) or citation (phonetic transcription) below, single word with no punctuations. For unusual alphabets, please click the alphabets on the right.</p>
+				<form class="form-horizontal" role="form" method="post" action="/" name="inputform1">
+					<div class="input-group input-group-sm">
+						<span class="input-group-addon">Lexeme</span>
+						<input type="text" class="form-control" placeholder="e.g. eşek" name="lexeme">
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" href="javascript:void(0)" onclick="sendText(document.inputform1.lexeme, 'ı')">ı</button>
+							<button type="button" class="btn btn-default" href="javascript:void(0)" onclick="sendText(document.inputform1.lexeme, 'ö')">ö</button>
+							<button type="button" class="btn btn-default" href="javascript:void(0)" onclick="sendText(document.inputform1.lexeme, 'ü')">ü</button>
+							<button type="button" class="btn btn-default" href="javascript:void(0)" onclick="sendText(document.inputform1.lexeme, 'ç')">ç</button>
+							<button type="button" class="btn btn-default" href="javascript:void(0)" onclick="sendText(document.inputform1.lexeme, 'ş')">ş</button>
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</span>
+				    </div><!-- /input-group -->
+				</form>
+				<br>
+				<form class="form-horizontal" role="form" method="post" action="/" name="inputform2">
+				    <div class="input-group input-group-sm">
+				    	<span class="input-group-addon">Citation</span>
+						<input type="text" class="form-control" placeholder="e.g. eʃek" name="citation">
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" href="javascript:void(0)" onclick="sendText(document.inputform2.citation, 'ø')">ø</button>
+							<button type="button" class="btn btn-default" href="javascript:void(0)" onclick="sendText(document.inputform2.citation, 'ɯ')">ɯ</button>
+							<button type="button" class="btn btn-default" href="javascript:void(0)" onclick="sendText(document.inputform2.citation, 'ɫ')">ɫ</button>
+							<button type="button" class="btn btn-default" href="javascript:void(0)" onclick="sendText(document.inputform2.citation, 'ɾ')">ɾ</button>
+							<button type="button" class="btn btn-default" href="javascript:void(0)" onclick="sendText(document.inputform2.citation, 'ʒ')">ʒ</button>
+							<button type="button" class="btn btn-default" href="javascript:void(0)" onclick="sendText(document.inputform2.citation, 'dʒ')">dʒ</button>
+							<button type="button" class="btn btn-default" href="javascript:void(0)" onclick="sendText(document.inputform2.citation, 'ʃ')">ʃ</button>
+							<button type="button" class="btn btn-default" href="javascript:void(0)" onclick="sendText(document.inputform2.citation, 'tʃ')">tʃ</button>
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</span>
+				    </div><!-- /input-group -->
+				</form>
+			</div>
+
+			<div class="container">
+				<hr>
+				{% if wordICunigram or wordICbigram %}
+				<div class="alert alert-success">
+					Unigram Information Content: {{wordICunigram}}<br>
+					Bigram Information Content: {{wordICbigram}}
+				</div>
+				{% endif %}
+				{% if error %}
+                <div class="alert alert-danger">{{error}}</div>
+                {% endif %}
+			</div> <!-- /container -->
 
 		</div> <!-- /container -->
-
 
 		<!-- Bootstrap core JavaScript
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
 		<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 		<script src="static/js/bootstrap.min.js"></script>
+		<script type="text/javascript">
+			function sendText(e, text) 
+			{ 
+			  e.value += text;
+			  e.focus;
+			}
+		</script>
 
 	</body>
 

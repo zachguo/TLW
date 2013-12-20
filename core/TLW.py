@@ -18,15 +18,16 @@ class TLW():
     def load_data(self):
         # try loading from cache first
         try:
-            with open("cache/citationDict", "r") as f:
+            with open("core/cache/citationDict", "r") as f:
                 citationDict = pickle.load(f)
-            with open("cache/freqDict", "r") as f:
+            with open("core/cache/freqDict", "r") as f:
                 freqDict = pickle.load(f)
 
         except:
             # load TELL lexicon
+            # citationDict maps pronunciations to orthographies
             citationDict = {}
-            for rawHTML in glob.glob('TELL_html_raw/*.txt'):
+            for rawHTML in glob.glob('core/TELL_html_raw/*.txt'):
             	with open(rawHTML, 'r') as f:
             		s = f.read()
             		s = re.subn(r'<TR>', '\n', s)[0]
@@ -40,16 +41,17 @@ class TLW():
             					citationDict[lexeme] = citation
             				else:
             					if citation != citationDict[lexeme]:
-            						print rawHTML, citation, citationDict[lexeme] # none
+            						print rawHTML, citation, citationDict[lexeme] # none should exist
 
             # load word frequency
+            # freqDict maps frequency to orthographies
             freqDict = {}
-            with open('frequencylist/tr-2011/tr.txt', 'r') as f:
+            with open('core/frequencylist/tr-2011/tr.txt', 'r') as f:
             	for line in f:
             		if line:
             			word,freq = line.strip().split(' ')
             			freqDict[word] = int(freq)
-            with open('frequencylist/tr-2012/tr.txt', 'r') as f:
+            with open('core/frequencylist/tr-2012/tr.txt', 'r') as f:
                 for line in f:
                     if line:
                         word,freq = line.strip().split(' ')
@@ -69,9 +71,9 @@ class TLW():
             print 'TELL:',len(citationDict),'FREQ:',len(freqDict)
 
             # save to cache
-            with open("cache/citationDict", "w") as f:
+            with open("core/cache/citationDict", "w") as f:
                 pickle.dump(citationDict, f)
-            with open("cache/freqDict", "w") as f:
+            with open("core/cache/freqDict", "w") as f:
                 pickle.dump(freqDict, f)
 
         return citationDict, freqDict
@@ -79,9 +81,9 @@ class TLW():
     # calculate well-formedness
     def get_ngramIC(self):
         try:
-            with open("cache/ICunigramDict", "r") as f:
+            with open("core/cache/ICunigramDict", "r") as f:
                 ICunigramDict = pickle.load(f)
-            with open("cache/ICbigramDict", "r") as f:
+            with open("core/cache/ICbigramDict", "r") as f:
                 ICbigramDict = pickle.load(f)
 
         except:
@@ -114,14 +116,19 @@ class TLW():
             print " Finished Bigram IC ..."
             print "Finished calculation of information content."
             # save to cache
-            with open("cache/ICunigramDict", "w") as f:
+            with open("core/cache/ICunigramDict", "w") as f:
                 pickle.dump(ICunigramDict, f)
-            with open("cache/ICbigramDict", "w") as f:
+            with open("core/cache/ICbigramDict", "w") as f:
                 pickle.dump(ICbigramDict, f)
 
         return ICunigramDict, ICbigramDict
 
-    def cal_wellformedness(self, target):
+    def cal_wellformedness(self, target, method="citation"): # another method, "lexeme"
+        if method == "lexeme":
+            if target in citationDict:
+                target = citationDict[target]
+            else:
+                return None, None # lexeme doesn't exist in citationDict
         target = "#"+target+"#" # target should be citation, not lexeme
         wordICunigram = sum([self.ICunigramDict[char] for char in target])/float(len(target))
         wordICbigram = sum([self.ICbigramDict[target[i:i+2]] for i in range(len(target)-1)])/float(len(target)-1)
@@ -143,22 +150,22 @@ class TLW():
         outBigram = wordICbigramDict.items()
         outUnigram.sort(key=lambda x:x[1])
         outBigram.sort(key=lambda x:x[1])
-        with open('output/ICunigram.csv','w') as f:
+        with open('core/output/ICunigram.csv','w') as f:
         	for word in outUnigram:
         		f.write(word[0]+','+str(word[1])+'\n')
-        with open('output/ICbigram.csv','w') as f:
+        with open('core/output/ICbigram.csv','w') as f:
         	for word in outBigram:
         		f.write(word[0]+','+str(word[1])+'\n')
-        with open('output/TopBottom50.csv','w') as f:
+        with open('core/output/TopBottom50.csv','w') as f:
         	f.write('Unigram Top 50,Unigram Bottom 50,Bigram Top 50,Bigram Bottom 50\n')
         	for i in range(50):
         		f.write(outUnigram[i][0]+','+outUnigram[-(i+1)][0]+','+outBigram[i][0]+','+outBigram[-(i+1)][0]+'\n')
 
-    def output_customized_wordlist(self, filepath='example.txt'):
+    def output_customized_wordlist(self, filepath='example.txt', method="citation"):
         with open(filepath, 'r') as f:
             for line in f:
                 if line:
                     line = line.strip()
-                    wordICunigram, wordICbigram = self.cal_wellformedness(line)
+                    wordICunigram, wordICbigram = self.cal_wellformedness(line, method=method)
                     print 'Word:', line, 'IC_uni:', wordICunigram, 'IC_bi:', wordICbigram
 
