@@ -9,9 +9,18 @@
 
 	    <!-- Bootstrap core CSS -->
 	    <link rel="stylesheet" href="static/css/bootstrap.min.css" />
+	    <style>
+	    .dropdown-menu {
+		    min-width: 0px !important;
+		}
+		body {
+			padding-top: 70px;
+		}
+	    </style>
+
 	</head>
 
-	<body style="padding-top: 70px;">
+	<body>
 
 		<!-- Fixed navbar -->
 		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -50,17 +59,22 @@
 
 			<div class="container">
 				<h3>Demo:</h3>
-				<p>Please enter Turkish lexeme (orthographic word) or citation (phonetic transcription) below, single word with no punctuations. For unusual alphabets, please click the alphabets on the right.</p>
+				<p>Please enter Turkish lexeme (orthographic word) or citation (phonetic transcription) below, single word with no punctuations. For unusual alphabets, please click the "Add" button on the right.</p>
 				<form class="form-horizontal" role="form" method="post" action="/" name="inputform1">
 					<div class="input-group input-group-sm">
 						<span class="input-group-addon">Lexeme</span>
 						<input type="text" class="form-control" placeholder="e.g. eşek" name="lexeme">
 						<span class="input-group-btn">
-							<button type="button" class="btn btn-default" href="javascript:void(0)" onclick="sendText(document.inputform1.lexeme, 'ı')">ı</button>
-							<button type="button" class="btn btn-default" href="javascript:void(0)" onclick="sendText(document.inputform1.lexeme, 'ö')">ö</button>
-							<button type="button" class="btn btn-default" href="javascript:void(0)" onclick="sendText(document.inputform1.lexeme, 'ü')">ü</button>
-							<button type="button" class="btn btn-default" href="javascript:void(0)" onclick="sendText(document.inputform1.lexeme, 'ç')">ç</button>
-							<button type="button" class="btn btn-default" href="javascript:void(0)" onclick="sendText(document.inputform1.lexeme, 'ş')">ş</button>
+							<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">Add <span class="caret"></span></button>
+							<ul class="dropdown-menu pull-right">
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-link" href="javascript:void(0)" onclick="sendText(document.inputform1.lexeme, 'ı')">ı</button>
+									<button type="button" class="btn btn-link" href="javascript:void(0)" onclick="sendText(document.inputform1.lexeme, 'ö')">ö</button>
+									<button type="button" class="btn btn-link" href="javascript:void(0)" onclick="sendText(document.inputform1.lexeme, 'ü')">ü</button>
+									<button type="button" class="btn btn-link" href="javascript:void(0)" onclick="sendText(document.inputform1.lexeme, 'ç')">ç</button>
+									<button type="button" class="btn btn-link" href="javascript:void(0)" onclick="sendText(document.inputform1.lexeme, 'ş')">ş</button>
+								</span>
+							</ul>
 							<button type="submit" class="btn btn-primary">Submit</button>
 						</span>
 				    </div><!-- /input-group -->
@@ -71,14 +85,19 @@
 				    	<span class="input-group-addon">Citation</span>
 						<input type="text" class="form-control" placeholder="e.g. eʃek" name="citation">
 						<span class="input-group-btn">
-							<button type="button" class="btn btn-default" href="javascript:void(0)" onclick="sendText(document.inputform2.citation, 'ø')">ø</button>
-							<button type="button" class="btn btn-default" href="javascript:void(0)" onclick="sendText(document.inputform2.citation, 'ɯ')">ɯ</button>
-							<button type="button" class="btn btn-default" href="javascript:void(0)" onclick="sendText(document.inputform2.citation, 'ɫ')">ɫ</button>
-							<button type="button" class="btn btn-default" href="javascript:void(0)" onclick="sendText(document.inputform2.citation, 'ɾ')">ɾ</button>
-							<button type="button" class="btn btn-default" href="javascript:void(0)" onclick="sendText(document.inputform2.citation, 'ʒ')">ʒ</button>
-							<button type="button" class="btn btn-default" href="javascript:void(0)" onclick="sendText(document.inputform2.citation, 'dʒ')">dʒ</button>
-							<button type="button" class="btn btn-default" href="javascript:void(0)" onclick="sendText(document.inputform2.citation, 'ʃ')">ʃ</button>
-							<button type="button" class="btn btn-default" href="javascript:void(0)" onclick="sendText(document.inputform2.citation, 'tʃ')">tʃ</button>
+							<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">Add <span class="caret"></span></button>
+							<ul class="dropdown-menu pull-right">
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-link" href="javascript:void(0)" onclick="sendText(document.inputform2.citation, 'ø')">ø</button>
+									<button type="button" class="btn btn-link" href="javascript:void(0)" onclick="sendText(document.inputform2.citation, 'ɯ')">ɯ</button>
+									<button type="button" class="btn btn-link" href="javascript:void(0)" onclick="sendText(document.inputform2.citation, 'ɫ')">ɫ</button>
+									<button type="button" class="btn btn-link" href="javascript:void(0)" onclick="sendText(document.inputform2.citation, 'ɾ')">ɾ</button>
+									<button type="button" class="btn btn-link" href="javascript:void(0)" onclick="sendText(document.inputform2.citation, 'ʒ')">ʒ</button>
+									<button type="button" class="btn btn-link" href="javascript:void(0)" onclick="sendText(document.inputform2.citation, 'dʒ')">dʒ</button>
+									<button type="button" class="btn btn-link" href="javascript:void(0)" onclick="sendText(document.inputform2.citation, 'ʃ')">ʃ</button>
+									<button type="button" class="btn btn-link" href="javascript:void(0)" onclick="sendText(document.inputform2.citation, 'tʃ')">tʃ</button>
+								</span>
+							</ul>
 							<button type="submit" class="btn btn-primary">Submit</button>
 						</span>
 				    </div><!-- /input-group -->
