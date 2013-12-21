@@ -31,7 +31,7 @@ def demo():
 		# 	wordICunigram_std = -(wordICunigram - 4.325948)/0.3538684 # standardized value
 		if wordICbigram:
 			wordICbigram_std = -(wordICbigram - 11.38079)/1.537547 # standardized value
-		return render_template("_base.html", wordICbigram=wordICbigram, wordICbigram_std=wordICbigram_std, error=error, lexeme=lexeme, citation=citation)
+		return render_template("_base.html", wordICbigram="{0:.2f}".format(wordICbigram), wordICbigram_std="{0:.2f}".format(wordICbigram_std), error=error, lexeme=lexeme, citation=citation)
 	else:
 	    return render_template("_base.html")
 
