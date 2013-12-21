@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, escape
 from core import TLW
 
 application = app = Flask(__name__) # AWS mod_wgsi looks for "application"
-app.debug=True # only in dev
+# app.debug=True # only in dev
 
 @app.route('/', methods=['GET', 'POST'])
 def demo():
@@ -27,11 +27,11 @@ def demo():
 					wordICunigram, wordICbigram = tlw.cal_wellformedness(citation.encode('utf-8'))
 				except:
 					error = "Invalid citation."
-		if wordICunigram:
-			wordICunigram_std = -(wordICunigram - 4.325948)/0.3538684 # standardized value
+		# if wordICunigram:
+		# 	wordICunigram_std = -(wordICunigram - 4.325948)/0.3538684 # standardized value
 		if wordICbigram:
 			wordICbigram_std = -(wordICbigram - 11.38079)/1.537547 # standardized value
-		return render_template("_base.html", wordICunigram=wordICunigram, wordICbigram=wordICbigram, wordICunigram_std=wordICunigram_std, wordICbigram_std=wordICbigram_std, error=error, lexeme=lexeme, citation=citation)
+		return render_template("_base.html", wordICbigram=wordICbigram, wordICbigram_std=wordICbigram_std, error=error, lexeme=lexeme, citation=citation)
 	else:
 	    return render_template("_base.html")
 

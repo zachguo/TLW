@@ -108,7 +108,7 @@
 
 			<div class="container">
 				<hr>
-				{% if wordICunigram or wordICbigram %}
+				{% if wordICbigram %}
 				<div class="panel panel-success">
 					<!-- Default panel contents -->
 					<div class="panel-heading">Results:</div>
@@ -119,25 +119,21 @@
 					    	<th>Citation</th>
 							<th><abbr title="Bigram Information Content">BIC</abbr></th>
 							<th><abbr title="Normalized Bigram Information Content">nBIC</abbr></th>
-							<th><abbr title="Unigram Information Content">UIC</abbr></th>
-							<th><abbr title="Normalized Unigram Information Content">nUIC</abbr></th>
 					    </tr>
 					    <tr>
 					    	<td>{{lexeme}}</td>
 					    	<td>{{citation}}</td>
 					    	<td>{{wordICbigram}}</td>
 					    	<td>{{wordICbigram_std}}</td>
-					    	<td>{{wordICunigram}}</td>
-					    	<td>{{wordICunigram_std}}</td>
 					    </tr>
 					  </table>
 					</div>
 					<div class="panel-body">
 						<p>Notes:</p>
 						<ul>
-						<li>The larger BIC/UIC, the more illformed.</li>
-						<li>The larger nBIC/nUIC, the more wellformed.</li>
-						<li>nBIC/nUIC is BIC/UIC normalized by its standard deviation. If the value is bigger than 2, one can be quite certain that the word is really wellformed. Conversely, if the value is smaller than -2, once can be quite certain that the word is illformed.</li>
+						<li>The larger BIC, the more illformed.</li>
+						<li>The larger nBIC, the more wellformed.</li>
+						<li>nBIC is negative BIC normalized by its standard deviation. If the value is bigger than 2, one can be quite certain that the word is really wellformed. Conversely, if the value is smaller than -2, once can be quite certain that the word is illformed.</li>
 						</ul>
 					</div>
 				</div>
