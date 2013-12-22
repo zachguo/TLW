@@ -171,11 +171,11 @@ class TLW():
         	for i in range(50):
         		f.write(outUnigram[i][0]+','+outUnigram[-(i+1)][0]+','+outBigram[i][0]+','+outBigram[-(i+1)][0]+'\n')
 
-    def output_customized_wordlist(self, filepath='example.txt', method="citation"):
+    def output_customized_wordlist(self, filepath='core/exp/both.txt', method="citation"):
         with open(filepath, 'r') as f:
             for line in f:
                 if line:
                     line = line.strip()
                     wordICunigram, wordICbigram = self.cal_wellformedness(line, method=method)
-                    print 'Word:', line, 'IC_uni:', wordICunigram, 'IC_bi:', wordICbigram
+                    print 'Word:', line, ', UIC:', wordICunigram, ', BIC:', wordICbigram
 
