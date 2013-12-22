@@ -9,7 +9,7 @@ application = app = Flask(__name__) # AWS mod_wgsi looks for "application"
 @app.route('/', methods=['GET', 'POST'])
 def demo():
 	if request.method == 'POST':
-		tlw = TLW.TLW()
+		tlw = TLW.TLW(True)
 		wordICunigram, wordICbigram, wordICunigram_std, wordICbigram_std, error, lexeme, citation = '','','','','','',''
 		if 'lexeme' in request.form:
 			lexeme = escape(request.form['lexeme']).strip()

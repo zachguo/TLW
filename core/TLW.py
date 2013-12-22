@@ -11,16 +11,18 @@ except:
 class TLW():
     # 'TLW' = 'Turkish Lexicon Wellformedness'
 
-    def __init__(self):
+    def __init__(self, isToken):
+        self.isToken = isToken
         self.citationDict, self.freqDict = self.load_data()
         self.ICunigramDict, self.ICbigramDict = self.get_ngramIC()
 
     def load_data(self):
         # try loading from cache first
         try:
-            with open("core/cache/citationDict", "r") as f:
+            addon = '_token' if self.isToken else '_type'
+            with open("core/cache/citationDict"+addon, "r") as f:
                 citationDict = pickle.load(f)
-            with open("core/cache/freqDict", "r") as f:
+            with open("core/cache/freqDict"+addon, "r") as f:
                 freqDict = pickle.load(f)
 
         except:
@@ -43,37 +45,42 @@ class TLW():
             					if citation != citationDict[lexeme]:
             						print rawHTML, citation, citationDict[lexeme] # none should exist
 
-            # load word frequency
-            # freqDict maps frequency to orthographies
             freqDict = {}
-            with open('core/frequencylist/tr-2011/tr.txt', 'r') as f:
-            	for line in f:
-            		if line:
-            			word,freq = line.strip().split(' ')
-            			freqDict[word] = int(freq)
-            with open('core/frequencylist/tr-2012/tr.txt', 'r') as f:
-                for line in f:
-                    if line:
-                        word,freq = line.strip().split(' ')
-                        if word not in freqDict:
-                            freqDict[word] = int(freq)
-                        else:
-                            freqDict[word] += int(freq)
+            if self.isToken:
+                # load word frequency
+                # freqDict maps frequency to orthographies
+                with open('core/frequencylist/tr-2011/tr.txt', 'r') as f:
+                	for line in f:
+                		if line:
+                			word,freq = line.strip().split(' ')
+                			freqDict[word] = int(freq)
+                with open('core/frequencylist/tr-2012/tr.txt', 'r') as f:
+                    for line in f:
+                        if line:
+                            word,freq = line.strip().split(' ')
+                            if word not in freqDict:
+                                freqDict[word] = int(freq)
+                            else:
+                                freqDict[word] += int(freq)
 
-            # intersection of two sources
-            useful_words = set(citationDict.keys())&set(freqDict.keys())
+                # intersection of two sources
+                useful_words = set(citationDict.keys())&set(freqDict.keys())
 
-            # reduce citationDict and freqDict to only useful_words
-            citationDict = {word:citationDict[word] for word in useful_words}
-            freqDict = {word:freqDict[word] for word in useful_words}
+                # reduce citationDict and freqDict to only useful_words
+                citationDict = {word:citationDict[word] for word in useful_words}
+                freqDict = {word:freqDict[word] for word in useful_words}
+            else:
+                # type-based analysis, each word has same frequency: 1
+                freqDict = {word:1 for word in citationDict}
 
             # print status
-            print 'TELL:',len(citationDict),'FREQ:',len(freqDict)
+            print 'Number of words:',len(citationDict)
 
             # save to cache
-            with open("core/cache/citationDict", "w") as f:
+            addon = '_token' if self.isToken else '_type'
+            with open("core/cache/citationDict"+addon, "w") as f:
                 pickle.dump(citationDict, f)
-            with open("core/cache/freqDict", "w") as f:
+            with open("core/cache/freqDict"+addon, "w") as f:
                 pickle.dump(freqDict, f)
 
         return citationDict, freqDict
@@ -81,9 +88,10 @@ class TLW():
     # calculate well-formedness
     def get_ngramIC(self):
         try:
-            with open("core/cache/ICunigramDict", "r") as f:
+            addon = '_token' if self.isToken else '_type'
+            with open("core/cache/ICunigramDict"+addon, "r") as f:
                 ICunigramDict = pickle.load(f)
-            with open("core/cache/ICbigramDict", "r") as f:
+            with open("core/cache/ICbigramDict"+addon, "r") as f:
                 ICbigramDict = pickle.load(f)
 
         except:
@@ -116,9 +124,10 @@ class TLW():
             print " Finished Bigram IC ..."
             print "Finished calculation of information content."
             # save to cache
-            with open("core/cache/ICunigramDict", "w") as f:
+            addon = '_token' if self.isToken else '_type'
+            with open("core/cache/ICunigramDict"+addon, "w") as f:
                 pickle.dump(ICunigramDict, f)
-            with open("core/cache/ICbigramDict", "w") as f:
+            with open("core/cache/ICbigramDict"+addon, "w") as f:
                 pickle.dump(ICbigramDict, f)
 
         return ICunigramDict, ICbigramDict
@@ -144,19 +153,20 @@ class TLW():
         return wordICunigramDict, wordICbigramDict
 
     def output_top50(self):
+        addon = '_token' if self.isToken else '_type'
         wordICunigramDict, wordICbigramDict = self.get_IC_for_all_words()
         # print out
         outUnigram = wordICunigramDict.items()
         outBigram = wordICbigramDict.items()
         outUnigram.sort(key=lambda x:x[1])
         outBigram.sort(key=lambda x:x[1])
-        with open('core/output/ICunigram.csv','w') as f:
+        with open('core/output/ICunigram'+addon+'.csv','w') as f:
         	for word in outUnigram:
         		f.write(word[0]+','+str(word[1])+'\n')
-        with open('core/output/ICbigram.csv','w') as f:
+        with open('core/output/ICbigram'+addon+'.csv','w') as f:
         	for word in outBigram:
         		f.write(word[0]+','+str(word[1])+'\n')
-        with open('core/output/TopBottom50.csv','w') as f:
+        with open('core/output/TopBottom50'+addon+'.csv','w') as f:
         	f.write('Unigram Top 50,Unigram Bottom 50,Bigram Top 50,Bigram Bottom 50\n')
         	for i in range(50):
         		f.write(outUnigram[i][0]+','+outUnigram[-(i+1)][0]+','+outBigram[i][0]+','+outBigram[-(i+1)][0]+'\n')
