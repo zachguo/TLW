@@ -26,12 +26,14 @@ def demo():
 				try:
 					wordICunigram, wordICbigram = tlw.cal_wellformedness(citation.encode('utf-8'))
 				except:
-					error = "Invalid citation."
+					error = "Invalid citation. Please use \"Add\" button on the right to insert unusual alphabets."
 		# if wordICunigram:
 		# 	wordICunigram_std = -(wordICunigram - 4.325948)/0.3538684 # standardized value
 		if wordICbigram:
 			wordICbigram_std = -(wordICbigram - 11.38079)/1.537547 # standardized value
-		return render_template("_base.html", wordICbigram="{0:.2f}".format(wordICbigram), wordICbigram_std="{0:.2f}".format(wordICbigram_std), error=error, lexeme=lexeme, citation=citation)
+			return render_template("_base.html", wordICbigram="{0:.2f}".format(wordICbigram), wordICbigram_std="{0:.2f}".format(wordICbigram_std), error=error, lexeme=lexeme, citation=citation)
+		else:
+			return render_template("_base.html", wordICbigram="", wordICbigram_std="", error=error, lexeme=lexeme, citation=citation)
 	else:
 	    return render_template("_base.html")
 
