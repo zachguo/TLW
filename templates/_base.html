@@ -131,12 +131,17 @@
 					    </tr>
 					  </table>
 					</div>
-					<div class="panel-body">
-						<p>Notes:</p>
+				</div>
+				<div class="panel panel-warning">
+					<div class="panel-heading">
+						<a data-toggle="collapse" href="#collapseNote" class="text-warning" style="left:50%">Show/Hide notes</a>
+					</div>
+					<div id="collapseNote" class="collapse panel-body">
 						<ul>
-						<li>The larger BIC, the more illformed.</li>
-						<li>The larger nBIC, the more wellformed.</li>
-						<li>nBIC is negative BIC normalized by its standard deviation. If the value is bigger than 2, one can be quite certain that the word is really wellformed. Conversely, if the value is smaller than -2, once can be quite certain that the word is illformed.</li>
+							<li>The calculation is token-based, word frequencies were taken into account.</li>
+							<li>The larger BIC, the more illformed the word is.</li>
+							<li>The larger nBIC, the more wellformed the word is.</li>
+							<li>nBIC is negative BIC normalized by its standard deviation. If the value is bigger than 2, one can be quite certain that the word is really wellformed. Conversely, if the value is smaller than -2, once can be quite certain that the word is illformed.</li>
 						</ul>
 					</div>
 				</div>
